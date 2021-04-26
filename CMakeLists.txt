@@ -98,6 +98,7 @@ find_package (Git)
 
 if (USE_LDD)
 if (GIT_FOUND)
+    # TODO: dependency warning
     set (LDD_TAG "origin/master" CACHE STRING "ldd tag to use")
     set (LDD_REPO "https://github.com/seahorn/ldd.git" CACHE STRING "ldd repository")
     ExternalProject_Add(ldd
@@ -156,6 +157,7 @@ if (GIT_FOUND)
   endif()
   
   ExternalProject_Add(apron
+    # TODO: dependency warning
     GIT_REPOSITORY https://github.com/seahorn/elina.git
     GIT_TAG ${APRON_TAG}
     INSTALL_DIR ${CMAKE_BINARY_DIR}/run/apron
