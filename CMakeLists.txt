@@ -98,7 +98,6 @@ find_package (Git)
 
 if (USE_LDD)
 if (GIT_FOUND)
-    # TODO: dependency warning
     set (LDD_TAG "origin/master" CACHE STRING "ldd tag to use")
     set (LDD_REPO "https://github.com/seahorn/ldd.git" CACHE STRING "ldd repository")
     ExternalProject_Add(ldd
@@ -107,8 +106,7 @@ if (GIT_FOUND)
       PREFIX ${CMAKE_BINARY_DIR}/ldd
       INSTALL_DIR ${CMAKE_BINARY_DIR}/run/ldd
       CMAKE_ARGS
-      # -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER} -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-      -DCMAKE_C_COMPILER=gcc-4.8 -DCMAKE_CXX_COMPILER=g++-4.8
+      -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER} -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
       -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
       -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
       # XXX: ldd is always compiled statically.
@@ -157,14 +155,12 @@ if (GIT_FOUND)
   endif()
   
   ExternalProject_Add(apron
-    # TODO: dependency warning
     GIT_REPOSITORY https://github.com/seahorn/elina.git
     GIT_TAG ${APRON_TAG}
     INSTALL_DIR ${CMAKE_BINARY_DIR}/run/apron
     CONFIGURE_COMMAND echo "Apron does not need a configure"
     BUILD_IN_SOURCE 1
-    # BUILD_COMMAND make CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} ${IS_VECTOR} ${IS_SSE}
-    BUILD_COMMAND make CC=gcc-4.8 CXX=g++-4.8 ${IS_VECTOR} ${IS_SSE}
+    BUILD_COMMAND make CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} ${IS_VECTOR} ${IS_SSE}
     APRON_PREFIX=<INSTALL_DIR> GMP_PREFIX=${GMP_SEARCH_PATH} MPFR_PREFIX=${MPFR_SEARCH_PATH} 
     INSTALL_COMMAND 
     make APRON_PREFIX=<INSTALL_DIR> GMP_PREFIX=${GMP_SEARCH_PATH} MPFR_PREFIX=${MPFR_SEARCH_PATH} install
@@ -251,7 +247,7 @@ endif ()
 
 # XXX: do not use add_definition for warning flags. add_definition is
 #      intended for -D...
-# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")  # TODO: could this be a problem?
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-redeclared-class-member")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-covered-switch-default")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-sometimes-uninitialized")
